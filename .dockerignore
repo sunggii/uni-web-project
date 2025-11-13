@@ -1,0 +1,10 @@
+dist
+build
+nbproject/private
+.git
+*.log
+*.tmp
+/.idea
+/.vscode
+target
+**/.DS_Store

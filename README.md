@@ -62,3 +62,37 @@ ant
 - โปรเจคนี้เป็นงานโปรเจคการเรียน/ตัวอย่าง (ปรับแต่งเพิ่มเติมได้ตามความต้องการ)
 
 หากต้องการให้ผมปรับ README เพิ่มเติม (เช่น ตัวอย่าง SQL schema, ตัวอย่างไฟล์ config, คำอธิบายแต่ละ servlet) แจ้งมาได้เลยครับ
+
+**การ deploy บน Render (แนะนำใช้ Docker)**
+
+- ปัญหาที่พบ: ข้อความ error `Couldn't find a package.json file in "/opt/render/project/src"` เกิดเพราะ Render พยายามรัน environment แบบ Node (หรือสคริปต์ build ที่เรียก `yarn`) โดยอัตโนมัติ เมื่อไม่มี `package.json` จึงเกิดข้อผิดพลาด
+- วิธีแก้ที่แนะนำ: ใช้ Dockerfile เพื่อให้ Render สร้างและรันแอปของเราแบบ containerized (ไม่ต้องพึ่ง `package.json`). โปรเจคนี้มีสคริปต์ Ant ที่สร้าง WAR ได้ ดังนั้น Dockerfile จะสร้าง WAR ด้วย Ant (ดาวน์โหลด GlassFish ชั่วคราวเพื่อให้ build script ทำงาน) แล้วรันบน Tomcat
+
+ขั้นตอนสั้น ๆ ในการใช้งานกับ Render
+1. เพิ่ม `Dockerfile` ที่รูทของโปรเจค (ผมได้เพิ่มตัวอย่างไว้แล้วใน repo) ซึ่งจะทำการ
+	- ติดตั้ง Ant และ GlassFish ชั่วคราวใน stage แรก
+	- รัน `ant dist` เพื่อสร้าง WAR ที่ `dist/` 
+	- คัดลอก WAR ไปยัง Tomcat image และรัน Tomcat
+2. ตรวจสอบว่า JDBC driver (เช่น `mysql-connector-j-9.0.0.jar`) อยู่ใน `web/WEB-INF/lib` (ผมได้เปลี่ยน reference ใน `nbproject/project.properties` ให้ชี้ไปที่ `web/WEB-INF/lib/...` แล้ว)
+3. commit และ push โค้ดขึ้น repository ที่เชื่อมกับ Render (หรือใช้ Docker build จาก Render directly)
+4. บน Render สร้างบริการใหม่เป็น `Web Service` และเลือก `Docker` (หรือเชื่อมกับ Git และเลือกให้ Render ใช้ `Dockerfile` ใน repo)
+
+คำสั่งทดสอบแบบ local (PowerShell)
+```powershell
+# สร้าง image และรัน container (ต้องมี Docker ติดตั้ง)
+cd 'D:\ru_68\cos2204\project_2\my_project_2'
+docker build -t my_project_2:latest .
+docker run -p 8080:8080 my_project_2:latest
+
+# เปิดเบราว์เซอร์ที่ http://localhost:8080
+```
+
+หมายเหตุสำคัญ
+- ถ้า `web/WEB-INF/lib/mysql-connector-j-9.0.0.jar` ยังไม่มี ให้ดาวน์โหลด `mysql-connector` แล้ววางไว้ที่นั่นก่อน build (หรือใช้ dependency management แยกต่างหาก เช่น Maven/Gradle)
+- หากต้องการให้ Render เชื่อมต่อฐานข้อมูล ให้ตั้งค่า environment variables บน Render (`DB_URL`, `DB_USER`, `DB_PASS`) แล้วแก้ servlet/DAO ให้อ่านค่าจาก environment หรือจากไฟล์ properties ที่อ่านค่าจาก env
+- การดาวน์โหลด GlassFish ใน Dockerfile ใช้เพียงเพื่อให้ NetBeans-generated Ant build ทำงาน ถ้าต้องการลดขนาด image ใน production สามารถปรับปรุงขั้นตอน build ให้ไม่ต้องอาศัย GlassFish (เช่นเปลี่ยนเป็น Maven หรือคัดลอก dependencies แบบ explicit)
+
+ต้องการให้ผมช่วยอีกไหม เช่น
+- ปรับ `Servlet`/`DAO` ให้รับค่าการเชื่อมต่อจาก environment variables
+- ดาวน์โหลด `mysql-connector` และเพิ่มเข้า `web/WEB-INF/lib` ให้เลย
+- สร้าง `render.yaml` ตัวอย่างสำหรับการตั้งค่าอัตโนมัติบน Render
