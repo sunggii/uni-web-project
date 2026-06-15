@@ -51,12 +51,20 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(111, 111, 111, 0.497);
         }
+        
+        .login-note {
+            margin-top: ุ6px;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            letter-spacing: 0.2px;
+        }
     </style>
         
     </head>
     <body>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
         </script>
         
         <div class="box">
@@ -99,6 +107,11 @@
 
                 </form>
             </div>
+            <p class="login-note">
+                Demo Account :
+                user@gmail.com / 12345678 |
+                admin@gmail.com / 12345678
+            </p>
         </div>
     </div>
         

@@ -1,16 +1,11 @@
-# Project 2 - Web E-commerce 
+# Web E-commerce 
 
 สรุปโปรเจค
 - โปรเจคนี้เป็นเว็บแอปพลิเคชันที่พัฒนาโดยใช้ Java EE (JSP/Servlet) สำหรับจัดการฟังก์ชันของระบบขายสินค้า/สต็อก/คำสั่งซื้อ (ตัวอย่างไฟล์ใน `web/` และ `serverSide/`) และมีหน้า client-side ที่ใช้ HTML/CSS/JavaScript
 
-ตัวอย่างหน้า website
-![alt text](<Screenshot/Screenshot 2025-12-09 105631.png>)
+>กรณีเปิดผ่าน ngrok ให้เติม '/my_project_2' ด้วยเพื่อเข้าหน้า index
 
-![alt text](<Screenshot/Screenshot 2025-12-09 105743.png>)
-
-![alt text](<Screenshot/Screenshot 2025-12-09 105808.png>)
-
-
+![alt text](<Screenshot/preview.gif>)
 
 คุณสมบัติหลัก (ตัวอย่าง)
 - หน้าหลัก: `index.jsp`
