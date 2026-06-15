@@ -1,4 +1,4 @@
-# Project 2 - Web E-commerce 
+# Web E-commerce 
 
 สรุปโปรเจค
 - โปรเจคนี้เป็นเว็บแอปพลิเคชันที่พัฒนาโดยใช้ Java EE (JSP/Servlet) สำหรับจัดการฟังก์ชันของระบบขายสินค้า/สต็อก/คำสั่งซื้อ (ตัวอย่างไฟล์ใน `web/` และ `serverSide/`) และมีหน้า client-side ที่ใช้ HTML/CSS/JavaScript
